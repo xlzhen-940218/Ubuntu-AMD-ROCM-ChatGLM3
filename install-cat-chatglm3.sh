@@ -3,6 +3,19 @@ echo "update system..."
 sudo apt update -y && sudo apt upgrade -y
 echo "install python3-dev build-essential git"
 sudo apt install python3-dev build-essential git -y
+
+echo "check rocm"
+AMD_ROCM="amdgpu-install_5.6.50600-1_all.deb"
+if [ -d "$AMD_ROCM" ]; then
+  echo "update rocm"
+else
+  echo "install rocm"
+  wget https://repo.radeon.com/amdgpu-install/5.6/ubuntu/jammy/amdgpu-install_5.6.50600-1_all.deb
+  sudo apt install ./amdgpu-install_5.6.50600-1_all.deb
+fi
+
+sudo amdgpu-install --usecase=rocm
+
 echo "git clone cat-chatglm3"
 git clone https://github.com/pofice/cat_demo-for-ChatGLM3.git
 cd cat_demo-for-ChatGLM3
